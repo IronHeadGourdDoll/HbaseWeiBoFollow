@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="commonHooter" id="header">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/common.css}" type="text/css">
+    <div class="container">
+        <nav class="navbar navbar-default container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">微博系统</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a th:href="@{/index}">用户列表<span class="sr-only">(current)</span></a></li>
+                    <li>
+                        <a th:if="${session.visitor}!=null" th:href="@{'searchUser?userId='+${session.visitor.id}}">个人信息</a>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <form id="search_form" class="form-group" th:method="get">
+                        <input id="searchId" type="text" class="form-control" placeholder="请输入用户id">
+                        <input type="button" class="btn btn-default" onclick="searchUser()" th:value="搜索">
+                    </form>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        提示
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    您未登录，请先登录
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                    </button>
+                                    <a th:href="@{/to_login}">
+                                        去登录
+                                    </a>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+
+                    <li class="dropdown">
+                        <a th:if="${session.visitor.username eq 'anonymousUser'}" th:text="请登录" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+                        <a th:unless="${session.visitor.username eq 'anonymousUser'}" th:text="${session.visitor.username}" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">我的微博</a></li>
+                            <li><a href="#">账号设置</a></li>
+                            <li><a href="#">意见反馈</a></li>
+                            <li role="separator" class="divider"></li>
+                            <!--${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.username}一直为null-->
+                            <li th:if="${session.visitor.username eq 'anonymousUser'}"><a th:href="@{/to_login}">登录</a></li>
+                            <li th:unless="${session.visitor.username eq 'anonymousUser'}"><a th:href="@{/logout}">注销</a></li>
+                            <li><a th:href="@{/to_register}">注册</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </div>
+    <script>
+        function searchUser() {
+            var userId = $('#searchId').val();
+            window.location.href = getRootPath_dc() + "searchUser?userId=" + userId;
+        }
+        function getRootPath_dc() {
+            return window.location.protocol + '//' + window.location.host + "/";
+        }
+    </script>
+</div>

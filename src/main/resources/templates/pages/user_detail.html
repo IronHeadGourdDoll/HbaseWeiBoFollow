@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:include="common/header :: commonHooter"></div>
+    <div class="container">
+        <h2 th:if="${session.visitor.id==user.id}">个人信息</h2>
+        <h2 th:unless="${session.visitor.id==user.id}">[[${user.id}]]的信息</h2>
+        <table class="table table-striped">
+            <tr>
+                <td>id</td>
+                <td>用户名</td>
+                <td>密码</td>
+                <td>关注</td>
+                <td>粉丝</td>
+            </tr>
+            <tr>
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}">  </td>
+                <td th:text="${user.pwd}"></td>
+                <!--关注用户-->
+                <td>
+                    <table>
+                        <tr th:each="j,iterStat : ${user.follows}">
+                            <!--j是关注的id-->
+                            <td th:text="${j}"></td>
+                            <td><a th:href="@{'/unFollowUser?unFollowId='+${j}}">取消关注</a></td>
+                        </tr>
+                    </table>
+                </td>
+                <!--粉丝用户-->
+                <td>
+                    <table>
+                        <tr th:each="j,iterStat : ${user.fans}">
+                            <td th:text="${j}"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
