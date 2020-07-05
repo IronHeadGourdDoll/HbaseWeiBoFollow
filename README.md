@@ -59,9 +59,9 @@
 
 ​	Column Family3：’fans’
 
-​	Column Qualifier2x cell：关注ID
+​	Column Qualifier2x cell：关注ID-timespace
 
-​	Column Qualifier3x cell：粉丝ID
+​	Column Qualifier3x cell：粉丝ID-timespace
 
 ![image-20200704173530056](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200704173530056.png)
 
